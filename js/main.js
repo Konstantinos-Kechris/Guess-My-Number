@@ -8,9 +8,13 @@ const displayMessage = function (message) {
   document.querySelector(".message").textContent = message;
 };
 
+let isGameFinished = false;
+
 document.querySelector(".check").addEventListener("click", function () {
+  if (isGameFinished) {
+    resetGame();
+  }
   const guess = Number(document.querySelector(".guess").value);
-  console.log(guess, typeof guess);
 
   // When there is no input
   if (!guess) {
@@ -18,6 +22,7 @@ document.querySelector(".check").addEventListener("click", function () {
 
     // When player wins
   } else if (guess === secretNumber) {
+    isGameFinished = true;
     displayMessage("🎉 Correct Number!");
     document.querySelector(".number").textContent = secretNumber;
 
@@ -42,7 +47,9 @@ document.querySelector(".check").addEventListener("click", function () {
   }
 });
 
-document.querySelector(".again").addEventListener("click", function () {
+document.querySelector(".again").addEventListener("click", resetGame());
+
+function resetGame() {
   score = 20;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
 
@@ -53,4 +60,4 @@ document.querySelector(".again").addEventListener("click", function () {
 
   document.querySelector("body").style.backgroundColor = "#222";
   document.querySelector(".number").style.width = "15rem";
-});
+}
